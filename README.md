@@ -49,7 +49,7 @@ npm install
 
 - Navigate to the `game-server/config.js` file and adjust the values for:
   - `host`: The hostname or IP address of the server. (For example, `localhost`)
-  - `port`: The port number for the server. (For example, `3000`)
+  - `port`: The port number for the server. (For example, `5000`)
   - `https`: HTTPS settings (enabled/disabled). (For example, `false`)
   - `mongo.uri`: MongoDB connection URI.
   - `session.secret`: Secret key for session management.
@@ -69,7 +69,7 @@ npm run build:css
 
 - Navigate to the `game-client-web/config.js` file and adjust the values for:
   - `host`: The hostname or IP address of the server. (For example, `localhost`)
-  - `port`: The port number for the server. (For example, `4000`)
+  - `port`: The port number for the server. (For example, `3000`)
   - `https`: HTTPS settings (enabled/disabled).
 
 > **Note**: Use example values if you are unsure about the configuration settings.
@@ -115,7 +115,7 @@ server {
 
     # Serve the game client
     location / {
-        proxy_pass http://localhost:4000;  # Port where the game-client-web is running
+        proxy_pass http://localhost:3000;  # Port where the game-client-web is running
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -124,7 +124,7 @@ server {
 
     # API requests go to the backend server
     location /api {
-        proxy_pass http://localhost:3000;  # Port where the game-server is running
+        proxy_pass http://localhost:5000;  # Port where the game-server is running
         rewrite ^/api/?(.*)$ /$1 break;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -134,7 +134,7 @@ server {
 
     # Handle WebSocket connections
     location /socket.io/ {
-        proxy_pass http://localhost:3000;  # WebSocket for game-server
+        proxy_pass http://localhost:5000;  # WebSocket for game-server
         proxy_http_version 1.1;  # Ensure WebSocket compatibility
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -172,7 +172,7 @@ server {
 
     # Serve the game client
     location / {
-        proxy_pass http://localhost:4000;  # Port where the game-client-web is running
+        proxy_pass http://localhost:3000;  # Port where the game-client-web is running
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -181,7 +181,7 @@ server {
 
     # API requests go to the backend server
     location /api {
-        proxy_pass http://localhost:3000;  # Port where the game-server is running
+        proxy_pass http://localhost:5000;  # Port where the game-server is running
         rewrite ^/api/?(.*)$ /$1 break;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -191,7 +191,7 @@ server {
 
     # Handle WebSocket connections
     location /socket.io/ {
-        proxy_pass http://localhost:3000;  # WebSocket for game-server
+        proxy_pass http://localhost:5000;  # WebSocket for game-server
         proxy_http_version 1.1;  # Ensure WebSocket compatibility
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
