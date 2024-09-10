@@ -19,6 +19,14 @@ This project consists of two major components:
 - **Game History**: View past game results, including player scores, moves, and game duration.
 - **Responsive Design**: Mobile-friendly UI for cross-platform compatibility.
 
+## Table of Contents
+
+- [Quick Start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [HTTPS Configuration](#https-configuration)
+- [API Documentation](API_DOCUMENTATION.md)
+
 ## Quick Start
 
 ### Prerequisites
