@@ -14,6 +14,13 @@ This document provides an overview of the API endpoints and their usage.
     - [Logout User](#logout-user)
     - [Two-Factor Authentication](#two-factor-authentication)
     - [Reset Password By Email](#reset-password-by-email)
+  - [Session Management](#session-management)
+    - [Get Current Session](#get-current-session)
+    - [Get All User Sessions](#get-all-user-sessions)
+    - [Delete Session](#delete-session)
+    - [Delete All Sessions (Except Current)](#delete-all-sessions-except-current)
+    - [Delete All Sessions Except One](#delete-all-sessions-except-one)
+    - [Delete All Sessions](#delete-all-sessions)
 
 ## Authentication & Session Management
 
@@ -706,3 +713,329 @@ This document provides an overview of the API endpoints and their usage.
     ```
 
 > Please get a verification code before attempting to reset the password. Use the [`Get Email Verification Code`](#get-email-verification-code) endpoint.
+
+### Session Management
+
+#### Get Current Session
+
+- **Description**: Get the current session status.
+
+- **Endpoint**: `GET /sessions/current`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "authenticated": true,
+        "twoFactorAuthenticated": true,
+        "userId": "string",
+        "sessionId": "string"
+      },
+      "message": "Current session status retrieved successfully."
+    }
+    ```
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "authenticated": true,
+        "twoFactorAuthenticated": false,
+        "userId": "string"
+      },
+      "message": "Current session status retrieved successfully."
+    }
+    ```
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "authenticated": false,
+        "twoFactorAuthenticated": false,
+        "userId": null
+      },
+      "message": "Current session status retrieved successfully."
+    }
+    ```
+
+#### Get All User Sessions
+
+- **Description**: Get all sessions for a user.
+
+- **Endpoint**: `GET /sessions/user/:userId`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "sessionId": "string",
+          "authenticated": true,
+          "twoFactorAuthenticated": true,
+          "userId": "string"
+        }
+      ],
+      "message": "User sessions listed successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User ID is required",
+      "error": {
+        "code": "MISSING_USER_ID",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+#### Delete Session
+
+- **Description**: Delete a specific session.
+
+- **Endpoint**: `DELETE /sessions/:sessionId`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "message": "Session deleted successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Session ID is required",
+      "error": {
+        "code": "MISSING_SESSION_ID",
+        "details": {
+          "sessionId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Cannot delete the current session",
+      "error": {
+        "code": "CANNOT_DELETE_CURRENT_SESSION",
+        "details": {
+          "sessionId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+#### Delete All Sessions (Except Current)
+
+- **Description**: Delete all sessions for the user except the current session.
+
+- **Endpoint**: `DELETE /sessions/user/:userId/exclude-current`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "message": "Sessions deleted successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User ID is required",
+      "error": {
+        "code": "MISSING_USER_ID",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+#### Delete All Sessions Except One
+
+- **Description**: Delete all sessions for the user except one specified session.
+
+- **Endpoint**: `DELETE /sessions/user/:userId/exclude/:excludeSessionId`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "message": "Sessions deleted successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User ID is required",
+      "error": {
+        "code": "MISSING_USER_ID",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Session ID is required",
+      "error": {
+        "code": "MISSING_SESSION_ID",
+        "details": {
+          "sessionId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Cannot delete the current session",
+      "error": {
+        "code": "CANNOT_DELETE_CURRENT_SESSION",
+        "details": {
+          "sessionId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+#### Delete All Sessions
+
+- **Description**: Delete all sessions for the user.
+
+- **Endpoint**: `DELETE /sessions/user/:userId`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "message": "Sessions deleted successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User ID is required",
+      "error": {
+        "code": "MISSING_USER_ID",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
