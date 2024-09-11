@@ -21,6 +21,14 @@ This document provides an overview of the API endpoints and their usage.
     - [Delete All Sessions (Except Current)](#delete-all-sessions-except-current)
     - [Delete All Sessions Except One](#delete-all-sessions-except-one)
     - [Delete All Sessions](#delete-all-sessions)
+- [User Management](#user-management)
+  - [User Information & Profile](#user-information--profile)
+    - [Get User By ID](#get-user-by-id)
+    - [Get User By Username](#get-user-by-username)
+    - [Get User By Email](#get-user-by-email)
+    - [Modify User Username](#modify-user-username)
+    - [Modify User Email](#modify-user-email)
+    - [Modify User Profile](#modify-user-profile)
 
 ## Authentication & Session Management
 
@@ -111,37 +119,36 @@ This document provides an overview of the API endpoints and their usage.
 
   - **Success**: `200 OK`
 
-  ```json
-  {
-    "status": "success",
-    "data": {
-      "username": "string",
-      "email": "string",
-      "profile": {
-        "firstName": "string",
-        "lastName": "string",
-        "gender": null,
-        "location": "string",
-        "birthday": null,
-        "bio": "string",
-        "avatar": "string",
-        "customizeUrls": []
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "username": "string",
+        "email": "string",
+        "profile": {
+          "firstName": "string",
+          "lastName": "string",
+          "gender": null,
+          "location": "string",
+          "birthday": null,
+          "bio": "string",
+          "avatar": "string",
+          "customizeUrls": []
+        },
+        "experience": 0,
+        "identity": [],
+        "suspended": false,
+        "_id": "string",
+        "safetyRecords": [],
+        "createdAt": "string",
+        "updatedAt": "string"
       },
-      "experience": 0,
-      "identity": [],
-      "suspended": false,
-      "_id": "string",
-      "safetyRecords": [],
-      "createdAt": "string",
-      "updatedAt": "string",
-      "__v": 0
-    },
-    "message": "User registered successfully."
-  }
-  ```
+      "message": "User registered successfully."
+    }
+    ```
 
-  > The `gender` field is `null` if not specified, `true` is male, and `false` is female.</br>
-  > User will be logged in automatically after registration.
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.</br>
+    > User will be logged in automatically after registration.
 
   - **Error**: `400 Bad Request`
 
@@ -333,15 +340,14 @@ This document provides an overview of the API endpoints and their usage.
         "suspended": false,
         "_id": "string",
         "createdAt": "string",
-        "updatedAt": "string",
-        "__v": 0
+        "updatedAt": "string"
       },
       "message": "User logged in successfully."
     }
     ```
 
-  > The `message` may vary if 2FA is required. (e.g., "User logged in successfully. 2FA required.")</br>
-  > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
+    > The `message` may vary if 2FA is required. (e.g., "User logged in successfully. 2FA required.")</br>
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
 
   - **Error**: `400 Bad Request`
 
@@ -1021,6 +1027,729 @@ This document provides an overview of the API endpoints and their usage.
       "message": "User ID is required",
       "error": {
         "code": "MISSING_USER_ID",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+## User Management
+
+### User Information & Profile
+
+#### Get User By ID
+
+- **Description**: Get user information by user ID.
+
+- **Endpoint**: `GET /users/id/:id`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "_id": "string",
+        "username": "string",
+        "email": "string",
+        "createdAt": "string",
+        "updatedAt": "string",
+        "profile": {
+          "firstName": "string",
+          "lastName": "string",
+          "gender": null,
+          "location": "string",
+          "birthday": "string",
+          "bio": "string",
+          "avatar": "string",
+          "customizeUrls": []
+        },
+        "experience": 0,
+        "identity": []
+      },
+      "message": "User found successfully."
+    }
+    ```
+
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User ID is required",
+      "error": {
+        "code": "MISSING_USER_ID",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found",
+      "error": {
+        "code": "USER_NOT_FOUND",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+#### Get User By Username
+
+- **Description**: Get user information by username.
+
+- **Endpoint**: `GET /users/username/:username`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "_id": "string",
+        "username": "string",
+        "email": "string",
+        "createdAt": "string",
+        "updatedAt": "string",
+        "profile": {
+          "firstName": "string",
+          "lastName": "string",
+          "gender": null,
+          "location": "string",
+          "birthday": "string",
+          "bio": "string",
+          "avatar": "string",
+          "customizeUrls": []
+        },
+        "experience": 0,
+        "identity": []
+      },
+      "message": "User found successfully."
+    }
+    ```
+
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Username is required",
+      "error": {
+        "code": "MISSING_USERNAME",
+        "details": {
+          "username": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found",
+      "error": {
+        "code": "USER_NOT_FOUND",
+        "details": {
+          "username": "string"
+        }
+      }
+    }
+    ```
+
+#### Get User By Email
+
+- **Description**: Get user information by email.
+
+- **Endpoint**: `GET /users/email/:email`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "_id": "string",
+        "username": "string",
+        "email": "string",
+        "createdAt": "string",
+        "updatedAt": "string",
+        "profile": {
+          "firstName": "string",
+          "lastName": "string",
+          "gender": null,
+          "location": "string",
+          "birthday": "string",
+          "bio": "string",
+          "avatar": "string",
+          "customizeUrls": []
+        },
+        "experience": 0,
+        "identity": []
+      },
+      "message": "User found successfully."
+    }
+    ```
+
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Email is required",
+      "error": {
+        "code": "MISSING_EMAIL",
+        "details": {
+          "email": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found",
+      "error": {
+        "code": "USER_NOT_FOUND",
+        "details": {
+          "email": "string"
+        }
+      }
+    }
+    ```
+
+#### Modify User Username
+
+- **Description**: Modify the username of the user.
+
+- **Endpoint**: `PUT /users/:id/username`
+
+- **Request Body**:
+
+  ```json
+  {
+    "username": "string"
+  }
+  ```
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "_id": "string",
+        "username": "string",
+        "email": "string",
+        "createdAt": "string",
+        "updatedAt": "string",
+        "profile": {
+          "firstName": "string",
+          "lastName": "string",
+          "gender": null,
+          "location": "string",
+          "birthday": "string",
+          "bio": "string",
+          "avatar": "string",
+          "customizeUrls": []
+        },
+        "experience": 0,
+        "identity": []
+      },
+      "message": "Username modified successfully."
+    }
+    ```
+
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Username is required",
+      "error": {
+        "code": "MISSING_USERNAME",
+        "details": {
+          "username": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Username must be at least 3 characters long",
+      "error": {
+        "code": "USERNAME_TOO_SHORT",
+        "details": {
+          "username": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Username must be at most 20 characters long",
+      "error": {
+        "code": "USERNAME_TOO_LONG",
+        "details": {
+          "username": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Username must contain only letters, numbers, underscores, and hyphens",
+      "error": {
+        "code": "INVALID_USERNAME",
+        "details": {
+          "username": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Username already in use",
+      "error": {
+        "code": "USERNAME_IN_USE",
+        "details": {
+          "username": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found",
+      "error": {
+        "code": "USER_NOT_FOUND",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+#### Modify User Email
+
+- **Description**: Modify the email of the user.
+
+- **Endpoint**: `PUT /users/:id/email`
+
+- **Request Body**:
+
+  ```json
+  {
+    "email": "string",
+    "code": 123456
+  }
+  ```
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "_id": "string",
+        "username": "string",
+        "email": "string",
+        "createdAt": "string",
+        "updatedAt": "string",
+        "profile": {
+          "firstName": "string",
+          "lastName": "string",
+          "gender": null,
+          "location": "string",
+          "birthday": "string",
+          "bio": "string",
+          "avatar": "string",
+          "customizeUrls": []
+        },
+        "experience": 0,
+        "identity": []
+      },
+      "message": "Email modified successfully."
+    }
+    ```
+
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Email is required",
+      "error": {
+        "code": "MISSING_EMAIL",
+        "details": {
+          "email": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Email verification code is required",
+      "error": {
+        "code": "NO_VERIFICATION_CODE"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Invalid verification code, please get a new one",
+      "error": {
+        "code": "INVALID_CODE"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Verification code expired",
+      "error": {
+        "code": "CODE_EXPIRED"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Email does not match",
+      "error": {
+        "code": "EMAIL_MISMATCH"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Invalid email address",
+      "error": {
+        "code": "INVALID_EMAIL"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Email already in use",
+      "error": {
+        "code": "EMAIL_IN_USE"
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found",
+      "error": {
+        "code": "USER_NOT_FOUND",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+> Please get a verification code before attempting to modify the email. Use the [`Get Email Verification Code`](#get-email-verification-code) endpoint.
+
+#### Modify User Profile
+
+- **Description**: Modify the profile of the user.
+
+- **Endpoint**: `PUT /users/:id/profile`
+
+- **Request Body**:
+
+  ```json
+  {
+    "firstName": "string",
+    "lastName": "string",
+    "gender": null,
+    "location": "string",
+    "birthday": "string",
+    "bio": "string",
+    "avatar": "string",
+    "customizeUrls": []
+  }
+  ```
+
+  > The `firstName`, `lastName`, `location`, `bio`, `avatar`, and `customizeUrls` fields are optional.</br>
+  > The `gender` field is `null` if not specified, `true` is male, and `false` is female.</br>
+  > The `avatar` field is a base64 encoded image. (size limit: 5MB)
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "_id": "string",
+        "username": "string",
+        "email": "string",
+        "createdAt": "string",
+        "updatedAt": "string",
+        "profile": {
+          "firstName": "string",
+          "lastName": "string",
+          "gender": null,
+          "location": "string",
+          "birthday": "string",
+          "bio": "string",
+          "avatar": "string",
+          "customizeUrls": []
+        },
+        "experience": 0,
+        "identity": []
+      },
+      "message": "Profile modified successfully."
+    }
+    ```
+
+    > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "First name is too long",
+      "error": {
+        "code": "FIRST_NAME_TOO_LONG"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Last name is too long",
+      "error": {
+        "code": "LAST_NAME_TOO_LONG"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Gender is invalid",
+      "error": {
+        "code": "GENDER_INVALID"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Location is too long",
+      "error": {
+        "code": "LOCATION_TOO_LONG"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Birthday is invalid",
+      "error": {
+        "code": "BIRTHDAY_INVALID"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Bio is too long",
+      "error": {
+        "code": "BIO_TOO_LONG"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Avatar is invalid",
+      "error": {
+        "code": "AVATAR_INVALID"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Avatar is too large",
+      "error": {
+        "code": "AVATAR_TOO_LARGE"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Customize URLs is invalid",
+      "error": {
+        "code": "CUSTOMIZE_URLS_INVALID"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Customize URLs are too long",
+      "error": {
+        "code": "CUSTOMIZE_URLS_TOO_LONG"
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found",
+      "error": {
+        "code": "USER_NOT_FOUND",
         "details": {
           "userId": "string"
         }
