@@ -29,6 +29,9 @@ This document provides an overview of the API endpoints and their usage.
     - [Modify User Username](#modify-user-username)
     - [Modify User Email](#modify-user-email)
     - [Modify User Profile](#modify-user-profile)
+  - [Security](#security)
+    - [Modify User Password](#modify-user-password)
+    - [Get User Safety Records](#get-user-safety-records)
 
 ## Authentication & Session Management
 
@@ -1768,3 +1771,230 @@ This document provides an overview of the API endpoints and their usage.
       }
     }
     ```
+
+### Security
+
+#### Modify User Password
+
+- **Description**: Modify the password of the user.
+
+- **Endpoint**: `PUT /users/:id/password`
+
+- **Request Body**:
+
+  ```json
+  {
+    "currentPassword": "string",
+    "newPassword": "string"
+  }
+  ```
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "message": "Password modified successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Current and new passwords are required",
+      "error": {
+        "code": "MISSING_PASSWORDS",
+        "details": {
+          "currentPassword": "string",
+          "newPassword": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "New password must be at least 6 characters long",
+      "error": {
+        "code": "PASSWORD_TOO_SHORT"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "New password must be different from the current password",
+      "error": {
+        "code": "PASSWORD_SAME_AS_CURRENT"
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found",
+      "error": {
+        "code": "USER_NOT_FOUND"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Incorrect password",
+      "error": {
+        "code": "INCORRECT_PASSWORD"
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+#### Get User Safety Records
+
+- **Description**: Get the safety records of the user.
+
+- **Endpoint**: `GET /users/safety-records/:id`
+
+- **Request Query**:
+
+  - `startIndex`: The start index of the safety records.
+  - `limit`: The number of safety records to return.
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "type": "string",
+          "operationTime": "string",
+          "ipAddress": "string",
+          "device": "string"
+        }
+      ],
+      "message": "Safety records found successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Start index is invalid",
+      "error": {
+        "code": "START_INDEX_INVALID"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Limit is invalid",
+      "error": {
+        "code": "LIMIT_INVALID"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Limit is too large",
+      "error": {
+        "code": "LIMIT_TOO_LARGE"
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Safety records not found",
+      "error": {
+        "code": "SAFETY_RECORDS_NOT_FOUND",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User not found or no safety records found",
+      "error": {
+        "code": "RECORDS_NOT_FOUND",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `500 Internal Server Error`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Error getting safety records",
+      "error": {
+        "code": "GET_ERROR"
+      }
+    }
+    ```
+
+  - **Error**: `403 Forbidden`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Access denied",
+      "error": {
+        "code": "ACCESS_DENIED"
+      }
+    }
+    ```
+
+> Safety records are automatically generated when the user logs in, 2FA, and changes their password.</br>
+> Safety records will only show the last 100 records.
