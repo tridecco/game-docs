@@ -32,6 +32,12 @@ This document provides an overview of the API endpoints and their usage.
   - [Security](#security)
     - [Modify User Password](#modify-user-password)
     - [Get User Safety Records](#get-user-safety-records)
+- [Game Management](#game-management)
+  - [Game Records](#game-records)
+    - [Get Game By ID](#get-game-by-id)
+    - [Get Games By User](#get-games-by-user)
+  - [Leaderboard](#leaderboard)
+    - [Get Leaderboard](#get-leaderboard)
 
 ## Authentication & Session Management
 
@@ -1998,3 +2004,207 @@ This document provides an overview of the API endpoints and their usage.
 
 > Safety records are automatically generated when the user logs in, 2FA, and changes their password.</br>
 > Safety records will only show the last 100 records.
+
+## Game Management
+
+### Game Records
+
+#### Get Game By ID
+
+- **Description**: Get the game data by game ID.
+
+- **Endpoint**: `GET /games/:gameId`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": {
+        "_id": "string",
+        "matchType": "string",
+        "matchStatus": "string",
+        "endTime": "string",
+        "map": "string",
+        "players": ["string"],
+        "winners": ["string"],
+        "operationRecords": [
+          {
+            "playerId": "string",
+            "operationType": "string",
+            "operationTime": "string",
+            "operationDetails": {}
+          }
+        ]
+      },
+      "message": "Game found successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Game ID is required",
+      "error": {
+        "code": "MISSING_GAME_ID",
+        "details": {
+          "gameId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Game not found",
+      "error": {
+        "code": "GAME_NOT_FOUND",
+        "details": {
+          "gameId": "string"
+        }
+      }
+    }
+    ```
+
+#### Get Games By User
+
+- **Description**: Get the games of the user.
+
+- **Endpoint**: `GET /games/user/:userId`
+
+- **Request Query**:
+
+  - `page`: The page number. (Default: 1)
+  - `pageSize`: The number of games to return per page. (Default: 10, Max: 30)
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "_id": "string",
+          "matchType": "string",
+          "matchStatus": "string",
+          "endTime": "string",
+          "map": "string",
+          "players": ["string"],
+          "winners": ["string"]
+        }
+      ],
+      "message": "Games listed successfully."
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "User ID is required",
+      "error": {
+        "code": "MISSING_USER_ID",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Invalid page number",
+      "error": {
+        "code": "INVALID_PAGE_NUMBER",
+        "details": {
+          "page": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Invalid page size",
+      "error": {
+        "code": "INVALID_PAGE_SIZE",
+        "details": {
+          "pageSize": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Page size too large",
+      "error": {
+        "code": "PAGE_SIZE_TOO_LARGE",
+        "details": {
+          "pageSize": "string"
+        }
+      }
+    }
+    ```
+
+  - **Error**: `404 Not Found`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Games not found",
+      "error": {
+        "code": "GAMES_NOT_FOUND",
+        "details": {
+          "userId": "string"
+        }
+      }
+    }
+    ```
+
+### Leaderboard
+
+#### Get Leaderboard
+
+- **Description**: Get the leaderboard. (Top 100)
+
+- **Endpoint**: `GET /leaderboard`
+
+- **Response**:
+
+  - **Success**: `200 OK`
+
+    ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "username": "string",
+          "avatar": "string",
+          "experience": 0
+        }
+      ],
+      "message": "Leaderboard retrieved successfully."
+    }
+    ```
+
+  > The leaderboard only shows the top 100 users (only top 10 users have their avatars shown).
