@@ -6,38 +6,40 @@ This document provides an overview of the API endpoints and their usage.
 
 ## Table of Contents
 
-- [Authentication & Session Management](#authentication--session-management)
-  - [User Authentication](#user-authentication)
-    - [Get Email Verification Code](#get-email-verification-code)
-    - [Register User](#register-user)
-    - [Login User](#login-user)
-    - [Logout User](#logout-user)
-    - [Two-Factor Authentication](#two-factor-authentication)
-    - [Reset Password By Email](#reset-password-by-email)
-  - [Session Management](#session-management)
-    - [Get Current Session](#get-current-session)
-    - [Get All User Sessions](#get-all-user-sessions)
-    - [Delete Session](#delete-session)
-    - [Delete All Sessions (Except Current)](#delete-all-sessions-except-current)
-    - [Delete All Sessions Except One](#delete-all-sessions-except-one)
-    - [Delete All Sessions](#delete-all-sessions)
-- [User Management](#user-management)
-  - [User Information & Profile](#user-information--profile)
-    - [Get User By ID](#get-user-by-id)
-    - [Get User By Username](#get-user-by-username)
-    - [Get User By Email](#get-user-by-email)
-    - [Modify User Username](#modify-user-username)
-    - [Modify User Email](#modify-user-email)
-    - [Modify User Profile](#modify-user-profile)
-  - [Security](#security)
-    - [Modify User Password](#modify-user-password)
-    - [Get User Safety Records](#get-user-safety-records)
-- [Game Management](#game-management)
-  - [Game Records](#game-records)
-    - [Get Game By ID](#get-game-by-id)
-    - [Get Games By User](#get-games-by-user)
-  - [Leaderboard](#leaderboard)
-    - [Get Leaderboard](#get-leaderboard)
+- [API Documentation](#api-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Authentication \& Session Management](#authentication--session-management)
+    - [User Authentication](#user-authentication)
+      - [Get Email Verification Code](#get-email-verification-code)
+      - [Register User](#register-user)
+      - [Login User](#login-user)
+      - [Logout User](#logout-user)
+      - [Two-Factor Authentication](#two-factor-authentication)
+      - [Reset Password By Email](#reset-password-by-email)
+    - [Session Management](#session-management)
+      - [Get Current Session](#get-current-session)
+      - [Get All User Sessions](#get-all-user-sessions)
+      - [Delete Session](#delete-session)
+      - [Delete All Sessions (Except Current)](#delete-all-sessions-except-current)
+      - [Delete All Sessions Except One](#delete-all-sessions-except-one)
+      - [Delete All Sessions](#delete-all-sessions)
+  - [User Management](#user-management)
+    - [User Information \& Profile](#user-information--profile)
+      - [Get User By ID](#get-user-by-id)
+      - [Get User By Username](#get-user-by-username)
+      - [Get User By Email](#get-user-by-email)
+      - [Modify User Username](#modify-user-username)
+      - [Modify User Email](#modify-user-email)
+      - [Modify User Profile](#modify-user-profile)
+    - [Security](#security)
+      - [Modify User Password](#modify-user-password)
+      - [Get User Safety Records](#get-user-safety-records)
+  - [Game Management](#game-management)
+    - [Game Records](#game-records)
+      - [Get Game By ID](#get-game-by-id)
+      - [Get Games By User](#get-games-by-user)
+    - [Leaderboard](#leaderboard)
+      - [Get Leaderboard](#get-leaderboard)
 
 ## Authentication & Session Management
 
@@ -1095,6 +1097,7 @@ This document provides an overview of the API endpoints and their usage.
     }
     ```
 
+    > The `email` field is masked if the user is not the owner of the account.</br>
     > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
 
   - **Error**: `400 Bad Request`
@@ -1163,6 +1166,7 @@ This document provides an overview of the API endpoints and their usage.
     }
     ```
 
+    > The `email` field is masked if the user is not the owner of the account.</br>
     > The `gender` field is `null` if not specified, `true` is male, and `false` is female.
 
   - **Error**: `400 Bad Request`
