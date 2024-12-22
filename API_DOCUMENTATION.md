@@ -268,6 +268,18 @@ This document provides an overview of the API endpoints and their usage.
     ```json
     {
       "status": "error",
+      "message": "Username contains inappropriate words",
+      "error": {
+        "code": "PROFANE_USERNAME"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
       "message": "Invalid email address",
       "error": {
         "code": "INVALID_EMAIL"
@@ -1335,10 +1347,7 @@ This document provides an overview of the API endpoints and their usage.
       "status": "error",
       "message": "Username must be at least 3 characters long",
       "error": {
-        "code": "USERNAME_TOO_SHORT",
-        "details": {
-          "username": "string"
-        }
+        "code": "USERNAME_TOO_SHORT"
       }
     }
     ```
@@ -1350,10 +1359,7 @@ This document provides an overview of the API endpoints and their usage.
       "status": "error",
       "message": "Username must be at most 20 characters long",
       "error": {
-        "code": "USERNAME_TOO_LONG",
-        "details": {
-          "username": "string"
-        }
+        "code": "USERNAME_TOO_LONG"
       }
     }
     ```
@@ -1365,10 +1371,19 @@ This document provides an overview of the API endpoints and their usage.
       "status": "error",
       "message": "Username must contain only letters, numbers, underscores, and hyphens",
       "error": {
-        "code": "INVALID_USERNAME",
-        "details": {
-          "username": "string"
-        }
+        "code": "INVALID_USERNAME"
+      }
+    }
+    ```
+
+  - **Error**: `400 Bad Request`
+
+    ```json
+    {
+      "status": "error",
+      "message": "Username contains inappropriate words",
+      "error": {
+        "code": "PROFANE_USERNAME"
       }
     }
     ```
@@ -1380,10 +1395,7 @@ This document provides an overview of the API endpoints and their usage.
       "status": "error",
       "message": "Username already in use",
       "error": {
-        "code": "USERNAME_IN_USE",
-        "details": {
-          "username": "string"
-        }
+        "code": "USERNAME_IN_USE"
       }
     }
     ```
