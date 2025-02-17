@@ -1,4 +1,7 @@
-# Tridecco Game
+# Tridecco Game Documentation
+
+> [!IMPORTANT]
+> All documentation after version 1.x will be in the `docs` folder of each repository.
 
 ## Overview
 
@@ -21,11 +24,14 @@ This project consists of two major components:
 
 ## Table of Contents
 
-- [Quick Start](#quick-start)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [HTTPS Configuration](#https-configuration)
-- [API Documentation](API_DOCUMENTATION.md)
+- [Tridecco Game Documentation](#tridecco-game-documentation)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Table of Contents](#table-of-contents)
+  - [Quick Start](#quick-start)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [HTTPS Configuration](#https-configuration)
 
 ## Quick Start
 
